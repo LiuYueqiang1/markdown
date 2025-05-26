@@ -1,0 +1,24 @@
+# AXE3 MINI PAL的问题
+
+```vhdl
+when x"71" =>
+    o_cfgPal_1V8_EN                 <= i_bram_din(7); 
+    o_cfgPal_3V3_EN                 <= i_bram_din(6); 
+when x"72" =>
+o_cfgPal_EN			    		<=  i_bram_din(0);
+```
+
+修改为：
+
+```VHDL
+                        when x"71" =>
+                            o_cfgPal_1V8_EN                 <= i_bram_din(7); 
+                            o_cfgPal_3V3_EN                 <= i_bram_din(6); 
+                            o_cfg_hdmi5ven                  <= i_bram_din(5); --增加了     PAL 的使能开关                     
+                            o_cfgPal_EN			    		<=  i_bram_din(0);--将PAL的时钟开关拉上来控制
+```
+
+
+
+修改了``oled2pal_timing_ctrl``模块的时序，将接入PAL的场信号直接接入到MENU_DISP模块后面。
+
